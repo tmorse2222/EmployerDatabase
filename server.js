@@ -169,4 +169,40 @@ function addEmployee() {
     });
 };
 
+function updateEmployeeRole() {
+    const employeeIDs = [];
+    const roleIDs = [];
+    db.query(`SELECT id FROM employee`, function (err, results) {
+        for (let i = 0; i < results.length; i++) {
+            employeeIDs.push(results[i].id);
+        }
+        inquirer.prompt({
+            type: 'list',
+            message: 'Which employee would you like to update?',
+            name: 'employeeID',
+            choices: employeeIDs
+        }).then((answer) => {
+            const id = parseInt(answer.employeeID);
+            db.query(`SELECT id FROM role`, function (err, results) {
+                for (let i = 0; i < results.length; i++) {
+                    roleIDs.push(results[i].id);
+                }
+                inquirer.prompt({
+                    type: 'list',
+                    message: 'What is the new role ID of the employee?',
+                    name: 'employeeRole',
+                    choices: roleIDs
+                }).then((answer) => {
+                    const roleID = parseInt(answer.employeeRole);
+                    db.query(`UPDATE employee SET roleID = ? WHERE id = ?`, [roleID, id], function (err, results) {
+                        console.table(results);
+                        console.log(`Employee role updated!`);
+                        start();
+                    });
+                });
+            });
+        });
+    });
+};
+
 start();
