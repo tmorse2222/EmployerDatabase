@@ -30,3 +30,4 @@ FOREIGN KEY (id)
 REFERENCES role(departmentID)
 ON DELETE SET NULL
 );
+
