@@ -130,6 +130,12 @@ function addRole() {
 
 function addEmployee() {
     const roleArray = [];
+    const managerArray = ["null",];
+    db.query(`SELECT id FROM employee`, function (err, results) {
+        for (let i = 0; i < results.length; i++) {
+            managerArray.push(results[i].id);
+        }
+    });
     db.query(`SELECT id FROM role`, function (err, results) {
         for (let i = 0; i < results.length; i++) {
             roleArray.push(results[i].id);
@@ -153,19 +159,29 @@ function addEmployee() {
             choices: roleArray
         },
         {
-            type: 'input',
-            message: 'What is the manager ID of the employee? If none, enter 0.',
+            type: 'list',
+            message: 'What is the manager ID of the employee? Use null if no manager.',
             name: 'employeeManager',
-            default: 0
+            choices: managerArray
         }
     ]).then((answer) => {
-        const id = parseInt(answer.employeeRole);
-        const managerID = parseInt(answer.employeeManager);
-        db.query(`INSERT INTO employee (first_name, last_name, roleID, managerID) VALUES (?, ?, ?, ?)`, [answer.employeeFirstName, answer.employeeLastName, id, managerID], function (err, results) {
-            console.table(results);
-            console.log(`Employee added!`);
-            start();
-        });
+        if (answer.employeeManager === "null") {
+            let id = null;
+            let role = parseInt(answer.employeeRole);
+            db.query(`INSERT INTO employee (first_name, last_name, roleID, managerID) VALUES (?, ?, ?, ?)`, [answer.employeeFirstName, answer.employeeLastName, role, id], function (err, results) {
+                console.table(results);
+                console.log(`Employee added!`);
+                start();  
+            });       
+        } else {
+            let id = parseInt(answer.employeeManager);
+            let role = parseInt(answer.employeeRole);
+            db.query(`INSERT INTO employee (first_name, last_name, roleID, managerID) VALUES (?, ?, ?, ?)`, [answer.employeeFirstName, answer.employeeLastName, role, id], function (err, results) {
+                console.table(results);
+                console.log(`Employee added!`);
+                start();
+            });
+    };
     });
 };
 
