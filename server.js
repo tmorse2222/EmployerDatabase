@@ -93,4 +93,40 @@ function addDepartment() {
     });
 };
 
+function addRole() {
+    const departmentArray = [];
+    db.query(`SELECT id FROM department`, function (err, results) {
+        for (let i = 0; i < results.length; i++) {
+            departmentArray.push(results[i].id);
+        }
+    });
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: 'What is the name of the role?',
+            name: 'roleName'
+        },
+        {
+            type: 'input',
+            message: 'What is the salary of the role?',
+            name: 'roleSalary'
+        },
+        {
+            type: 'list',
+            message: 'What is the department ID of the role?',
+            name: 'roleDepartment',
+            choices: departmentArray
+        }
+    ]).then((answer) => {
+        const id = parseInt(answer.roleDepartment);
+        const salary = parseInt(answer.roleSalary);
+        db.query(`INSERT INTO role (title, salary, departmentID) VALUES (?, ?, ?)`, [answer.roleName, salary, id], function (err, results) {
+            console.table(results);
+            console.log(`Role added!`);
+            start();
+        });
+    });
+};
+
+
 start();
