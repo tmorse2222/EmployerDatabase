@@ -205,4 +205,9 @@ function updateEmployeeRole() {
     });
 };
 
+function quit() {
+    console.log(`Goodbye!`);
+    process.exit();
+};
+
 start();
