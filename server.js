@@ -128,5 +128,45 @@ function addRole() {
     });
 };
 
+function addEmployee() {
+    const roleArray = [];
+    db.query(`SELECT id FROM role`, function (err, results) {
+        for (let i = 0; i < results.length; i++) {
+            roleArray.push(results[i].id);
+        }
+    });
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: 'What is the first name of the employee?',
+            name: 'employeeFirstName'
+        },
+        {
+            type: 'input',
+            message: 'What is the last name of the employee?',
+            name: 'employeeLastName'
+        },
+        {
+            type: 'list',
+            message: 'What is the role ID of the employee?',
+            name: 'employeeRole',
+            choices: roleArray
+        },
+        {
+            type: 'input',
+            message: 'What is the manager ID of the employee? If none, enter 0.',
+            name: 'employeeManager',
+            default: 0
+        }
+    ]).then((answer) => {
+        const id = parseInt(answer.employeeRole);
+        const managerID = parseInt(answer.employeeManager);
+        db.query(`INSERT INTO employee (first_name, last_name, roleID, managerID) VALUES (?, ?, ?, ?)`, [answer.employeeFirstName, answer.employeeLastName, id, managerID], function (err, results) {
+            console.table(results);
+            console.log(`Employee added!`);
+            start();
+        });
+    });
+};
 
 start();
