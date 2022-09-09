@@ -26,5 +26,5 @@ THEN I am prompted to enter the employee’s first name, last name, role, and ma
 WHEN I choose to update an employee role<br>
 THEN I am prompted to select an employee to update and their new role and this information is updated in the database<br>
 Description:<br>
-This application is executed through node.js, including "mysql2", "inquirer", and "jest" npms, as well as custom classes and OOP emplimentation. Once initiated, A series of prompts appear through the terminal requiring information to be passed to the new HTML file. Once complete, a pre-styled HTML file of project members and information will be created. Responsive on all screen sizes.
-A link to a video demo of the application can be found <a href="https://drive.google.com/file/d/1BJ3A17VPO9xyPI7A9FYKqPIwEwAxX9tO/view">here<a>.
+This application is executed through node.js, including "mysql2", "inquirer", and "console.table" npms. Upon application start, the user will be provided options for interacting with the database, including viewing tables, adding data, and updating employee roles through the command line.
+A link to a video demo of the application can be found <a href="https://drive.google.com/file/d/1GHK6LEzRQAzWimgkiPjjyb3kRm5CqWKp/view">here<a>.
