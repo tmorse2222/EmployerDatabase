@@ -1,9 +1,10 @@
+-- Seeds for department table
 INSERT INTO department (name)
 VALUES ("Sales"),
        ("Marketing"),
        ("Engineering"),
        ("Human Resources");
-
+-- Seeds for role table
 INSERT INTO role (title, salary, departmentID)
 VALUES ("Sales Lead", 100000, 1),
        ("Salesperson", 80000, 1),
@@ -12,7 +13,7 @@ VALUES ("Sales Lead", 100000, 1),
        ("Account Manager", 80000, 2),
        ("Accountant", 75000, 4),
        ("Legal Team Lead", 120000, 4);
-
+-- Seeds for employee table
 INSERT INTO employee (first_name, last_name, roleID, managerID)
 VALUES ("John", "Doe", 1, null),
        ("Jane", "Doe", 2, 1),
